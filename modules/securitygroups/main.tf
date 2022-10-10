@@ -55,16 +55,6 @@ resource "aws_security_group" "DocJenSona_sg" {
 # resource "aws_security_group" "DocJenSona_sg" { 
 #   name= var.security-group_Name
 #   vpc_id= var.vpc_id
-#   ingress {
-#     description = "Allow all traffic"
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = [var.all_cidr]
-#   }
-#   tags = {
-#     Name = var.security-group_Name
-#   }
 # }
 
 # resource "aws_security_group_rule" "allow_http" {
