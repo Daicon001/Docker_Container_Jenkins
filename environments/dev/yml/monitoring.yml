@@ -13,5 +13,5 @@
                      --pid=host \
                      -v "/:/host:ro" \
                      -v "/var/run/docker.sock:/var/run/docker.sock" \
-                     -e NRIA_LICENSE_KEY=eu01xx11b9228cd1071fed3b8e7b7658ee5bNRAL \
+                     -e NRIA_LICENSE_KEY=use_correct_newrelic_licence_key \
                      newrelic/infrastructure:latest
