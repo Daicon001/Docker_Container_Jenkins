@@ -26,3 +26,8 @@ variable "Docker_Server_Name" {
   default     = "JenCont-Docker-Server"
   description = "Name Tag for Docker Server"
 }
+variable "NewRelicLicence" {
+  description = "New Relic Licence"
+  type = string
+  default = "use_correct_newrelic_licence_key"
+}

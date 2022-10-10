@@ -37,5 +37,5 @@ resource "aws_lb_listener" "JenContainer_lb_lisner" {
 resource "aws_lb_target_group_attachment" "PEP_attachmenet_TG" {
   target_group_arn = aws_lb_target_group.Jencontainer-tg.arn
   target_id        = var.target_id
-  port             = var.lb_listener-port
+  port             = var.port
 }

@@ -8,3 +8,8 @@ variable "dev_path_to_public_key" {
   default     = "~/keypairs/test-key.pub"
   description = "path to public key"
 }
+variable "NewRelic_Licence" {
+    description = "New relic linence number"
+    type = string
+    sensitive = true  
+}

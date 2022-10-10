@@ -20,6 +20,7 @@ module "dev_docker" {
   security_group_id = module.dev_securitygroups.DocJenSona_sg
   subnet_id         = module.dev_vpc.PUB_SN1
   keyname           = module.keypair.keypair_id
+  NewRelicLicence   = var.NewRelic_Licence
 }
 module "dev_sonarQube" {
   source           = "../../modules/sonarQube"
@@ -59,7 +60,7 @@ resource "null_resource" "configure" {
       "sudo yum install ansible -y",
       "sudo chmod 400 /home/ec2-user/test-key",
       "sudo chown ec2-user:ec2-user /etc/ansible/hosts",
-      "echo \"license_key: eu01xx11b9228cd1071fed3b8e7b7658ee5bNRAL\" | sudo tee -a /etc/newrelic-infra.yml",
+      "echo \"license_key: ${var.NewRelic_Licence}\" | sudo tee -a /etc/newrelic-infra.yml",
       "sudo curl -o /etc/yum.repos.d/newrelic-infra.repo https://download.newrelic.com/infrastructure_agent/linux/yum/el/7/x86_64/newrelic-infra.repo",
       "sudo yum -q makecache -y --disablerepo='*' --enablerepo='newrelic-infra'",
       "sudo yum install newrelic-infra -y",
@@ -91,6 +92,7 @@ module "dev_jenkins" {
   securitygroup_id = module.dev_securitygroups.DocJenSona_sg
   subnet_id        = module.dev_vpc.PUB_SN1
   keyname          = module.keypair.keypair_name
+  NewRelicLicence   = var.NewRelic_Licence
 }
 resource "null_resource" "configure2" {
   connection {
@@ -101,6 +103,7 @@ resource "null_resource" "configure2" {
   }
   provisioner "remote-exec" {
     inline = [
+      "sudo hostnamectl set-hostname Jenkins",
       "sudo chmod -R 700 .ssh/",
       "sudo chown -R ec2-user:ec2-user .ssh/",
       "sudo su - ec2-user -c \"ssh-keygen -f ~/.ssh/jenkinskey_rsa4 -t rsa -b 4096 -m PEM -N ''\"",
@@ -112,6 +115,12 @@ module "dev_instance-ami" {
   source      = "../../modules/instance_ami"
   instance_id = module.dev_docker.docker_id
 }
+module "dev_launch_config" {
+  source           = "../../modules/launch_config"
+  image_id         = module.dev_instance-ami.instance-ami
+  securitygroup_id = module.dev_securitygroups.DocJenSona_sg
+  keyname          = module.keypair.keypair_name
+}
 module "dev_loadbalance" {
   source           = "../../modules/loadbalancer"
   securitygroup_id = module.dev_securitygroups.DocJenSona_sg
@@ -119,12 +128,6 @@ module "dev_loadbalance" {
   subnet_id2       = module.dev_vpc.PUB_SN2
   vpc_id           = module.dev_vpc.vpc_id
   target_id        = module.dev_docker.docker_id
-}
-module "dev_launch_config" {
-  source           = "../../modules/launch_config"
-  image_id         = module.dev_instance-ami.instance-ami
-  securitygroup_id = module.dev_securitygroups.DocJenSona_sg
-  keyname          = module.keypair.keypair_name
 }
 module "dev_autoscaling" {
   source               = "../../modules/autoscaling"

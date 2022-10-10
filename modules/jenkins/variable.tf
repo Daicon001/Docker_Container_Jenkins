@@ -26,3 +26,8 @@ variable "Jenkins_Server_Name" {
 variable "keyname" {
     default = "kubenetes-key"  
 }
+variable "NewRelicLicence" {
+  description = "New Relic Licence"
+  type = string
+  default = "use_correct_newrelic_licence_key"
+}

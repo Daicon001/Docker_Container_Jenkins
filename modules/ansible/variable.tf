@@ -25,3 +25,8 @@ variable "Ansible_Node_Name" {
   default     = "Ansible_Node"
   description = "Name Tag for Ansible Node"
 }
+variable "NewRelicLicence" {
+  description = "New Relic Licence"
+  type = string
+  default = "use_correct_newrelic_licence_key"
+}

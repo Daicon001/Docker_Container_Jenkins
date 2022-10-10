@@ -9,7 +9,7 @@ pip3 install ansible --user
 sudo chown ec2-user:ec2-user /etc/ansible
 sudo yum install -y http://mirror.centos.org/centos/7/extras/x86_64/Packages/sshpass-1.06-2.el7.x86_64.rpm
 sudo yum install sshpass -y
-echo "license_key: eu01xx11b9228cd1071fed3b8e7b7658ee5bNRAL" | sudo tee -a /etc/newrelic-infra.yml
+echo "license_key: ${var.NewRelicLicence}" | sudo tee -a /etc/newrelic-infra.yml
 sudo curl -o /etc/yum.repos.d/newrelic-infra.repo https://download.newrelic.com/infrastructure_agent/linux/yum/el/7/x86_64/newrelic-infra.repo
 sudo yum -q makecache -y --disablerepo='*' --enablerepo='newrelic-infra'
 sudo yum install newrelic-infra -y
